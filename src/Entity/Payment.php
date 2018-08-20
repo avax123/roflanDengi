@@ -29,11 +29,6 @@ class Payment
     private $description;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Group", inversedBy="payments")
-     */
-    private $groups;
-
-    /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Category", inversedBy="payments")
      */
     private $categories;
@@ -45,7 +40,6 @@ class Payment
 
     public function __construct()
     {
-        $this->groups = new ArrayCollection();
         $this->categories = new ArrayCollection();
         $this->users = new ArrayCollection();
     }
@@ -75,32 +69,6 @@ class Payment
     public function setDescription(?string $description): self
     {
         $this->description = $description;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Group[]
-     */
-    public function getGroups(): Collection
-    {
-        return $this->groups;
-    }
-
-    public function addGroup(Group $group): self
-    {
-        if (!$this->groups->contains($group)) {
-            $this->groups[] = $group;
-        }
-
-        return $this;
-    }
-
-    public function removeGroup(Group $group): self
-    {
-        if ($this->groups->contains($group)) {
-            $this->groups->removeElement($group);
-        }
 
         return $this;
     }

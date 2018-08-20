@@ -29,18 +29,12 @@ class User
     private $last_name;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Group", inversedBy="users")
-     */
-    private $groups;
-
-    /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Payment", mappedBy="users")
      */
     private $payments;
 
     public function __construct()
     {
-        $this->groups = new ArrayCollection();
         $this->payments = new ArrayCollection();
     }
 
@@ -69,32 +63,6 @@ class User
     public function setLastName(string $last_name): self
     {
         $this->last_name = $last_name;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Group[]
-     */
-    public function getGroups(): Collection
-    {
-        return $this->groups;
-    }
-
-    public function addGroup(Group $group): self
-    {
-        if (!$this->groups->contains($group)) {
-            $this->groups[] = $group;
-        }
-
-        return $this;
-    }
-
-    public function removeGroup(Group $group): self
-    {
-        if ($this->groups->contains($group)) {
-            $this->groups->removeElement($group);
-        }
 
         return $this;
     }
