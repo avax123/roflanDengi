@@ -83,7 +83,7 @@ class Payment
 
     public function addCategory(Category $category): self
     {
-        if (!$this->categories->contains($category)) {
+        if (! $this->categories->contains($category)) {
             $this->categories[] = $category;
         }
 
@@ -109,7 +109,7 @@ class Payment
 
     public function addUser(User $user): self
     {
-        if (!$this->users->contains($user)) {
+        if (! $this->users->contains($user)) {
             $this->users[] = $user;
         }
 

@@ -5,11 +5,12 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  */
-class User
+class User implements UserInterface, \Serializable
 {
     /**
      * @ORM\Id()
@@ -32,6 +33,16 @@ class User
      * @ORM\ManyToMany(targetEntity="App\Entity\Payment", mappedBy="users")
      */
     private $payments;
+
+    /**
+     * @ORM\Column(type="string", length=32)
+     */
+    private $login;
+
+    /**
+     * @ORM\Column(type="string", length=32)
+     */
+    private $password;
 
     public function __construct()
     {
@@ -77,7 +88,7 @@ class User
 
     public function addPayment(Payment $payment): self
     {
-        if (!$this->payments->contains($payment)) {
+        if (! $this->payments->contains($payment)) {
             $this->payments[] = $payment;
             $payment->addUser($this);
         }
@@ -93,5 +104,76 @@ class User
         }
 
         return $this;
+    }
+
+    public function getLogin(): ?string
+    {
+        return $this->login;
+    }
+
+    public function setLogin(string $login): self
+    {
+        $this->login = $login;
+
+        return $this;
+    }
+
+    public function getPassword(): ?string
+    {
+        return $this->password;
+    }
+
+    public function setPassword(string $password): self
+    {
+        $this->password = $password;
+
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function serialize()
+    {
+        return serialize([$this->id, $this->login, $this->password]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function unserialize($serialized): void
+    {
+        [$this->id, $this->login, $this->password] = unserialize($serialized, ['allowed_classes' => false]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getRoles()
+    {
+        return ['ROLE_USER'];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getSalt()
+    {
+        return null;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getUsername()
+    {
+        return $this->getLogin();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function eraseCredentials(): void
+    {
     }
 }

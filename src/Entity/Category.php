@@ -60,7 +60,7 @@ class Category
 
     public function addPayment(Payment $payment): self
     {
-        if (!$this->payments->contains($payment)) {
+        if (! $this->payments->contains($payment)) {
             $this->payments[] = $payment;
             $payment->addCategory($this);
         }
