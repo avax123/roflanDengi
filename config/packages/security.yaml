@@ -22,7 +22,7 @@ security:
                 check_path: login
                 csrf_token_generator: security.csrf.token_manager
                 default_target_path: dashboard
-                csrf_token_id: '%login-form.csrf-token-id%'
+                csrf_token_id: '%login_form.csrf_token_id%'
                 csrf_parameter: _csrf_token
 
     # Easy way to control access for large sections of your site

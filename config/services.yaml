@@ -5,7 +5,7 @@
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: 'en'
-    login-form.csrf-token-id: '%env(LOGIN_FORM_CSRF_TOKEN_ID)%'
+    login_form.csrf_token_id: '%env(LOGIN_FORM_CSRF_TOKEN_ID)%'
 
 services:
     # default configuration for services in *this* file
