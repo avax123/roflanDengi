@@ -15,22 +15,15 @@ security:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         main:
-            guard:
-                authenticators:
-                    - App\Security\LoginAuthenticator
             anonymous: ~
             logout: ~
             form_login:
                 login_path: login
                 check_path: login
-
-            # activate different ways to authenticate
-
-            # http_basic: true
-            # https://symfony.com/doc/current/security.html#a-configuring-how-your-users-will-authenticate
-
-            # form_login: true
-            # https://symfony.com/doc/current/security/form_login_setup.html
+                csrf_token_generator: security.csrf.token_manager
+                default_target_path: dashboard
+                csrf_token_id: '%login-form.csrf-token-id%'
+                csrf_parameter: _csrf_token
 
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
