@@ -27,6 +27,7 @@ class InstallerController extends AbstractController
      * @Route("/installer", name="installer")
      *
      * @param \App\Repository\UserRepository $repository
+     * @param Request                        $request
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
@@ -58,7 +59,7 @@ class InstallerController extends AbstractController
         }
 
         return $this->render('installer.html.twig', [
-            'form' => $form->createView()
+            'form' => $form->createView(),
         ]);
     }
 }

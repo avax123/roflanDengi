@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Form\LoginType;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -28,13 +29,21 @@ class LoginController extends Controller
             return new RedirectResponse($this->generateUrl('dashboard'));
         }
 
+        $form = $this->createForm(LoginType::class);
+
         $error = $authenticationUtils->getLastAuthenticationError();
 
         $lastUsername = $authenticationUtils->getLastUsername();
 
+        if (null !== $error) {
+            $form->setData([
+                '_username' => $lastUsername,
+            ]);
+        }
+
         return $this->render('login.html.twig', [
-            'last_username' => $lastUsername,
             'error' => $error,
+            'form' => $form->createView(),
         ]);
     }
 }

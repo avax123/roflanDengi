@@ -20,10 +20,12 @@ security:
             form_login:
                 login_path: login
                 check_path: login
+                username_parameter: login[_username]
+                password_parameter: login[_password]
                 csrf_token_generator: security.csrf.token_manager
                 default_target_path: dashboard
                 csrf_token_id: '%login_form.csrf_token_id%'
-                csrf_parameter: _csrf_token
+                csrf_parameter: login[_csrf_token]
 
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used

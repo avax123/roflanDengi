@@ -7,16 +7,7 @@
             </div>
         {% endif %}
 
-        <form action="{{ path('login') }}" method="post">
-            <div class="form-group">
-                <label for="exampleInputLogin">Login</label>
-                <input name="_username" value="{{ last_username }}" type="text" class="form-control" id="exampleInputLogin" placeholder="Enter login">
-            </div>
-            <div class="form-group">
-                <label for="exampleInputPassword1">Password</label>
-                <input name="_password"  type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
-                <input type="hidden" name="_csrf_token" value="{{ csrf_token('auth') }}"/>
-            </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
-        </form>
+        {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+        {{ form_widget(form) }}
+        {{ form_end(form) }}
     {% endblock %}
