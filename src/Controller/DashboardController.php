@@ -2,22 +2,23 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class DashboardController extends Controller
+class DashboardController extends AbstractController
 {
     /**
      * @Route("/", name="dashboard")
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function index()
+    public function index(): Response
     {
-        return new Response(sprintf(
-            '<html><body>Hello %s %s - you logged in.</body></html>',
-            $this->getUser()->getName(), $this->getUser()->getLastname()
-        ));
+        $user = $this->getUser();
+
+        return $this->render('dashboard.html.twig', [
+            'user' => $user
+        ]);
     }
 }
