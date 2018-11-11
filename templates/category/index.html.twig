@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Categories{% endblock %}
+
+{% block content %}
+    <h2>{{ "Add new category"|trans }}</h2>
+    <div class="row">
+        <div class="col-md-12">
+            {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+            {{ form_widget(form) }}
+            {{ form_end(form) }}
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col"><hr></div>
+    </div>
+    <h2>Categories</h2>
+
+    {% if (categories|length > 0) %}
+        <ul>
+            {% for category in categories %}
+                <li>{{ category.getName() }}</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        {{ "Please add first category" }}
+    {% endif %}
+{% endblock %}
+
