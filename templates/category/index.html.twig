@@ -3,6 +3,11 @@
 {% block title %}Categories{% endblock %}
 
 {% block content %}
+    {% for message in app.flashes('category.deletion') %}
+        <div class="alert alert-info" role="alert">
+            {{ message }}
+        </div>
+    {% endfor %}
     <h2>{{ "Add new category"|trans }}</h2>
     <div class="row">
         <div class="col-md-12">
@@ -20,7 +25,14 @@
     {% if (categories|length > 0) %}
         <ul>
             {% for category in categories %}
-                <li>{{ category.getName() }}</li>
+                <li style="margin: 15px 0;">
+                    {{ category.getName() }}
+
+                    <form method="post" style="display: inline-block" action="{{ path('categories.destroy', {'categoryId': category.getId()}) }}">
+                        <input type="hidden" name="_method" value="DELETE">
+                        <button type="submit" class="btn btn-outline-danger btn-sm">Delete</button>
+                    </form>
+                </li>
             {% endfor %}
         </ul>
     {% else %}
