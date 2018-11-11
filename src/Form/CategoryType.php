@@ -3,7 +3,6 @@
 namespace App\Form;
 
 use App\Entity\Category;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -13,23 +12,22 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 
 class CategoryType extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add('name', TextType::class, [
                 'constraints' => [
                     new NotBlank([
-                        'message' => 'This field can not be empty.'
-                    ])
-                ]
+                        'message' => 'This field can not be empty.',
+                    ]),
+                ],
             ])
             ->add('submit', SubmitType::class, [
-                'label' => 'add category'
-            ])
-        ;
+                'label' => 'add category',
+            ]);
     }
 
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'data_class' => Category::class,
