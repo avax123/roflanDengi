@@ -16,6 +16,9 @@ class CategoryType extends AbstractType
     {
         $builder
             ->add('name', TextType::class, [
+                'attr' => [
+                    'autofocus' => 'autofocus'
+                ],
                 'constraints' => [
                     new NotBlank([
                         'message' => 'This field can not be empty.',
