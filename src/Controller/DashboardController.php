@@ -17,7 +17,7 @@ class DashboardController extends AbstractController
     {
         $user = $this->getUser();
 
-        return $this->render('dashboard.html.twig', [
+        return $this->render('dashboard/index.html.twig', [
             'user' => $user,
         ]);
     }
