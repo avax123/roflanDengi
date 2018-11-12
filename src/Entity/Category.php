@@ -26,7 +26,7 @@ class Category
     private $name;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Payment", mappedBy="categories")
+     * @ORM\OneToMany(targetEntity="App\Entity\Payment", mappedBy="category", orphanRemoval=true)
      */
     private $payments;
 
@@ -64,7 +64,7 @@ class Category
     {
         if (! $this->payments->contains($payment)) {
             $this->payments[] = $payment;
-            $payment->addCategory($this);
+            $payment->setCategory($this);
         }
 
         return $this;
@@ -74,7 +74,10 @@ class Category
     {
         if ($this->payments->contains($payment)) {
             $this->payments->removeElement($payment);
-            $payment->removeCategory($this);
+            // set the owning side to null (unless already changed)
+            if ($payment->getCategory() === $this) {
+                $payment->setCategory(null);
+            }
         }
 
         return $this;

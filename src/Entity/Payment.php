@@ -2,8 +2,6 @@
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -24,25 +22,31 @@ class Payment
     private $amount;
 
     /**
+     * @ORM\Column(type="integer")
+     */
+    private $user_id;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $category_id;
+
+    /**
      * @ORM\Column(type="text", nullable=true)
      */
     private $description;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Category", inversedBy="payments")
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="payments")
+     * @ORM\JoinColumn(nullable=false)
      */
-    private $categories;
+    private $user;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\User", inversedBy="payments")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Category", inversedBy="payments")
+     * @ORM\JoinColumn(nullable=false)
      */
-    private $users;
-
-    public function __construct()
-    {
-        $this->categories = new ArrayCollection();
-        $this->users = new ArrayCollection();
-    }
+    private $category;
 
     public function getId(): ?int
     {
@@ -61,6 +65,30 @@ class Payment
         return $this;
     }
 
+    public function getUserId(): ?int
+    {
+        return $this->user_id;
+    }
+
+    public function setUserId(int $user_id): self
+    {
+        $this->user_id = $user_id;
+
+        return $this;
+    }
+
+    public function getCategoryId(): ?int
+    {
+        return $this->category_id;
+    }
+
+    public function setCategoryId(int $category_id): self
+    {
+        $this->category_id = $category_id;
+
+        return $this;
+    }
+
     public function getDescription(): ?string
     {
         return $this->description;
@@ -73,54 +101,26 @@ class Payment
         return $this;
     }
 
-    /**
-     * @return Collection|Category[]
-     */
-    public function getCategories(): Collection
+    public function getUser(): ?User
     {
-        return $this->categories;
+        return $this->user;
     }
 
-    public function addCategory(Category $category): self
+    public function setUser(?User $user): self
     {
-        if (! $this->categories->contains($category)) {
-            $this->categories[] = $category;
-        }
+        $this->user = $user;
 
         return $this;
     }
 
-    public function removeCategory(Category $category): self
+    public function getCategory(): ?Category
     {
-        if ($this->categories->contains($category)) {
-            $this->categories->removeElement($category);
-        }
-
-        return $this;
+        return $this->category;
     }
 
-    /**
-     * @return Collection|User[]
-     */
-    public function getUsers(): Collection
+    public function setCategory(?Category $category): self
     {
-        return $this->users;
-    }
-
-    public function addUser(User $user): self
-    {
-        if (! $this->users->contains($user)) {
-            $this->users[] = $user;
-        }
-
-        return $this;
-    }
-
-    public function removeUser(User $user): self
-    {
-        if ($this->users->contains($user)) {
-            $this->users->removeElement($user);
-        }
+        $this->category = $category;
 
         return $this;
     }

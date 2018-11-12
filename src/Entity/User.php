@@ -30,19 +30,19 @@ class User implements UserInterface, \Serializable
     private $last_name;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Payment", mappedBy="users")
-     */
-    private $payments;
-
-    /**
      * @ORM\Column(type="string", length=32)
      */
     private $login;
 
     /**
-     * @ORM\Column(type="string", length=32)
+     * @ORM\Column(type="string", length=100)
      */
     private $password;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Payment", mappedBy="user", orphanRemoval=true)
+     */
+    private $payments;
 
     public function __construct()
     {
@@ -74,34 +74,6 @@ class User implements UserInterface, \Serializable
     public function setLastName(string $last_name): self
     {
         $this->last_name = $last_name;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Payment[]
-     */
-    public function getPayments(): Collection
-    {
-        return $this->payments;
-    }
-
-    public function addPayment(Payment $payment): self
-    {
-        if (! $this->payments->contains($payment)) {
-            $this->payments[] = $payment;
-            $payment->addUser($this);
-        }
-
-        return $this;
-    }
-
-    public function removePayment(Payment $payment): self
-    {
-        if ($this->payments->contains($payment)) {
-            $this->payments->removeElement($payment);
-            $payment->removeUser($this);
-        }
 
         return $this;
     }
@@ -175,5 +147,36 @@ class User implements UserInterface, \Serializable
      */
     public function eraseCredentials(): void
     {
+    }
+
+    /**
+     * @return Collection|Payment[]
+     */
+    public function getPayments(): Collection
+    {
+        return $this->payments;
+    }
+
+    public function addPayment(Payment $payment): self
+    {
+        if (! $this->payments->contains($payment)) {
+            $this->payments[] = $payment;
+            $payment->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removePayment(Payment $payment): self
+    {
+        if ($this->payments->contains($payment)) {
+            $this->payments->removeElement($payment);
+            // set the owning side to null (unless already changed)
+            if ($payment->getUser() === $this) {
+                $payment->setUser(null);
+            }
+        }
+
+        return $this;
     }
 }
