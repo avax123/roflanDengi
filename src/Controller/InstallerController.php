@@ -58,7 +58,7 @@ class InstallerController extends AbstractController
             return $this->redirectToRoute('login');
         }
 
-        return $this->render('installer.html.twig', [
+        return $this->render('installer/index.html.twig', [
             'form' => $form->createView(),
         ]);
     }
