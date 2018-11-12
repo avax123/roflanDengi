@@ -41,7 +41,7 @@ class LoginController extends Controller
             ]);
         }
 
-        return $this->render('login.html.twig', [
+        return $this->render('login/index.html.twig', [
             'error' => $error,
             'form' => $form->createView(),
         ]);
