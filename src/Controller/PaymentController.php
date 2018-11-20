@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Form\PaymentCreateType;
+use App\Repository\PaymentRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,7 +18,7 @@ class PaymentController extends AbstractController
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function index(Request $request): Response
+    public function create(Request $request): Response
     {
         $form = $this->createForm(PaymentCreateType::class);
 
@@ -27,6 +28,7 @@ class PaymentController extends AbstractController
             /** @var \App\Entity\Payment $payment */
             $payment = $form->getData();
             $payment->setUser($this->getUser());
+            $payment->setCreatedAt(new \DateTime());
 
             $em = $this->getDoctrine()->getManager();
 
@@ -38,6 +40,22 @@ class PaymentController extends AbstractController
 
         return $this->render('payment/create.html.twig', [
             'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/payments", name="payments.index")
+     *
+     * @param \App\Repository\PaymentRepository $paymentRepository
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function index(PaymentRepository $paymentRepository): Response
+    {
+        $payments = $paymentRepository->getLatest();
+
+        return $this->render('payment/index.html.twig', [
+            'payments' => $payments,
         ]);
     }
 }

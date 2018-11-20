@@ -1,0 +1,25 @@
+{% extends 'layouts/base.html.twig' %}
+
+{% block title %}Payments{% endblock %}
+
+{% block content %}
+    <h2>Payments</h2>
+
+    <h4>Summary</h4>
+        <ul>
+            <li>Sum: {{ payments|sum_entities_field('getAmount')|price }}</li>
+        </ul>
+    <h4>List</h4>
+    {% if (payments|length > 0) %}
+        <ul>
+            {% for payment in payments %}
+                <li style="margin: 15px 0;">
+                    Category: {{ payment.getCategory().getName() }}. Amount: {{ payment.getAmount()|price }}.
+                    Created at: {{ payment.getCreatedAt().format('Y-m-d H:i:s') }}
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        {{ "No payments provided" }}
+    {% endif %}
+{% endblock %}

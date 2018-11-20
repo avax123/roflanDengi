@@ -40,6 +40,9 @@
                 <li class="nav-item {{ app.request.attributes.get('_route') == 'categories' ? 'active' : '' }}">
                     <a class="nav-link" href="{{ path('categories') }}">Categories</a>
                 </li>
+                <li class="nav-item {{ app.request.attributes.get('_route') == 'payments.index' ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ path('payments.index') }}">Payments</a>
+                </li>
                 <li class="nav-item {{ app.request.attributes.get('_route') == 'payments.create' ? 'active' : '' }}">
                     <a class="nav-link" href="{{ path('payments.create') }}">New payment</a>
                 </li>
