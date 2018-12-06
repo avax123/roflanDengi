@@ -1,1 +1,1 @@
-# E C O N O M Y
+# E C O N O M Y PROJECT
